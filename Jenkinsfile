@@ -10,9 +10,10 @@ pipeline {
         stage ('Artifactory configuration') {
             steps {
                 rtServer (
-                    id: "ARTIFACTORY_SERVER",
-                    url: SERVER_URL,
-                    credentialsId: CREDENTIALS
+                    id: "test-1",
+                    url: "https://champ25.jfrog.io/champ25L",
+                    username: "admin"
+                    password: "Ee0Bd2Hr2Cb3Gi"
                 )
 
                 rtMavenDeployer (
