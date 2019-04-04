@@ -28,3 +28,5 @@ pipeline {
                      server.publishBuildInfo buildinfo
                      }
                     } 
+           }
+         
