@@ -1,5 +1,8 @@
     pipeline {
     agent any
+        tools {
+    maven 'Maven'
+    }
         stages {
         stage ('Artifactory configuration') {
             steps {
@@ -29,8 +32,8 @@
         stage ('Exec Maven') {
             steps {
                 rtMavenRun (
-                    tool: Maven,
-                    pom: 'maven-example/pom.xml',
+                    tool: MAVEN_TOOL,
+                    pom: 'pom.xml',
                     goals: 'clean install',
                     deployerId: "MAVEN_DEPLOYER",
                     resolverId: "MAVEN_RESOLVER"
