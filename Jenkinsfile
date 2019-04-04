@@ -15,6 +15,7 @@ pipeline {
                  buildInfo.env.capture = true
                  }
                }
+            }
            stage('Exute Maven'){
                steps {
                    script {
@@ -28,6 +29,6 @@ pipeline {
                      server.publishBuildInfo buildinfo
                      }
                     } 
-           }
-         }
-      }
+                 }
+             }
+}
