@@ -1,35 +1,49 @@
-pipeline {
-    agent any 
-    def server = Artifactory.server 'test-1'
-    def rtMaven = Artifactory.newMavenBuild()
-    def buildInfo
-      stages {
-         stage('Artifactory configuration'){
-           steps {
-              script {
-                 rtMaven.tool ='Maven-3.5.3'
-                 rtMaven.deployer releaseRepo: 'libs-release-local', 'libs-snapshot-local', server: server
-                 rtMaven.resolver releaseRepo:'libs-release', snapshotRepo: 'libs-snapshot', server: server
-                 rtMaven deployer.artifactDeploymentPatterns.addExclude("pom.xml")
-                 buildInfo = Artifactory.newBuildInfo()
-                 buildInfo.retention maxBuilds: 10, maxDays: 7, deleteBuildArtifacts: true
-                 buildInfo.env.capture = true
-                 }
-               }
+    pipeline {
+    agent any
+    stages {
+        stage ('Artifactory configuration') {
+            steps {
+                rtServer (
+                    id: "test-1",
+                    url: "https://champ25.jfrog.io/champ25",
+                    user: "admin",
+                    password: "Ee0Bd2Hr2Cb3Gi"
+                )
+
+                rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    releaseRepo: "libs-release-local",
+                    snapshotRepo: "libs-snapshot-local"
+                )
+
+                rtMavenResolver (
+                    id: "MAVEN_RESOLVER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    releaseRepo: "libs-release",
+                    snapshotRepo: "libs-snapshot"
+                )
             }
-           stage('Exute Maven'){
-               steps {
-                   script {
-                       rtMaven.run pom: 'pom.xml' ,goals: 'clean install', buildinfo: buildInfo
-                       }
-                      }
-                     }
-           stage('Publish Build'){
-               steps{
-                   script {
-                     server.publishBuildInfo buildinfo
-                     }
-                    } 
-                 }
-             }
+        }
+
+        stage ('Exec Maven') {
+            steps {
+                rtMavenRun (
+                    tool: MAVEN_TOOL, // Tool name from Jenkins configuration
+                    pom: 'maven-example/pom.xml',
+                    goals: 'clean install',
+                    deployerId: "MAVEN_DEPLOYER",
+                    resolverId: "MAVEN_RESOLVER"
+                )
+            }
+        }
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "ARTIFACTORY_SERVER"
+                )
+            }
+        }
+    }
 }
