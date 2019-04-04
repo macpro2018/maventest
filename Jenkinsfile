@@ -29,17 +29,17 @@
             }
         }
 
-        stage ('Exec Maven') {
-            steps {
-                rtMavenRun (
-                    tool: Maven,
-                    pom: 'pom.xml',
-                    goals: 'clean install',
-                    deployerId: "MAVEN_DEPLOYER",
-                    resolverId: "MAVEN_RESOLVER"
-                )
-            }
-        }
+  #      stage ('Exec Maven') {
+  #          steps {
+  #              rtMavenRun (
+  #                  tool: Maven,
+  #                  pom: 'pom.xml',
+  #                  goals: 'clean install',
+  #                  deployerId: "MAVEN_DEPLOYER",
+  #                  resolverId: "MAVEN_RESOLVER"
+  #              )
+  #          }
+  #      }
 
         stage ('Publish build info') {
             steps {
