@@ -18,7 +18,7 @@ pipeline {
            stage('Exute Maven'){
                steps {
                    script {
-                       rtMaven.run pom: 'pom.xml: goles: 'clean install', buildinfo: buildInfo
+                       rtMaven.run pom: 'pom.xml' goles: 'clean install', buildinfo: buildInfo
                        }
                       }
                      }
