@@ -5,7 +5,7 @@
              git url: 'https://github.com/cyrille-leclerc/multi-module-maven-project'
              withMaven(
                 maven: 'M3',
-                mavenSettingsConfig: 'my-maven-settings',
+                mavenSettingsConfig: 'my-maven-settings')
                  }
                  }
         stage ('Artifactory configuration') {
