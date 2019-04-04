@@ -12,7 +12,7 @@ pipeline {
                 rtServer (
                     id: "test-1",
                     url: "https://champ25.jfrog.io/champ25L",
-                    username: "admin"
+                    username: "admin",
                     password: "Ee0Bd2Hr2Cb3Gi"
                 )
 
