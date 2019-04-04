@@ -1,13 +1,6 @@
     pipeline {
     agent any
         stages {
-        stage ('Build') {
-             git url: 'https://github.com/cyrille-leclerc/multi-module-maven-project'
-             withMaven(
-                maven: 'M3',
-                mavenSettingsConfig: 'my-maven-settings')
-                 }
-                 }
         stage ('Artifactory configuration') {
             steps {
                 rtServer (
